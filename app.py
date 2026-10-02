@@ -753,4 +753,38 @@ except Exception as e:
     st.markdown(f"• **Sample Size**: Analysis is based on a cohort of **{len(df)} student records**.")
     st.markdown(f"• **Final Marks Overview**: Mean final mark is **{df['Final_Marks'].mean():.2f}** with median **{df['Final_Marks'].median():.2f}**.")
 
-st.markdown('</div>', unsafe_allow_html=True)
+# ---------------------------------------------------------
+# VERCEL SERVERLESS ENTRYPOINT (WSGI HANDLER FOR VERCEL)
+# ---------------------------------------------------------
+def handler(environ, start_response):
+    """
+    WSGI callable for Vercel Serverless Function runtime (@vercel/python).
+    """
+    status = '200 OK'
+    headers = [('Content-Type', 'text/html; charset=utf-8')]
+    start_response(status, headers)
+    html_content = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Student Academic Performance Analytics</title>
+        <style>
+            body { font-family: sans-serif; background: #0B0F19; color: #F8FAFC; padding: 2rem; text-align: center; }
+            .card { background: #1E293B; padding: 2rem; border-radius: 12px; max-width: 600px; margin: auto; border: 1px solid #334155; }
+            a { color: #38BDF8; text-decoration: none; font-weight: bold; }
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <h1>🎓 Student Academic Performance Analytics</h1>
+            <p>This Streamlit application is deployed and ready.</p>
+            <p>For native interactive WebSockets, access the dashboard via Streamlit Cloud or your server instance.</p>
+        </div>
+    </body>
+    </html>
+    """
+    return [html_content.encode('utf-8')]
+
+app = handler
+application = handler
+
